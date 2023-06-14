@@ -26,7 +26,7 @@ class Enemy:
         self.index = 0
     else:
       self.rect.x += self.SPEED_X
-      if self.index > self.INTERVAL or self.rect.x >= SCREEN_WIDTH - self.rect.HEIGHT:
+      if self.index > self.INTERVAL or self.rect.x >= SCREEN_WIDTH - self.rect.width:
         self.mov_x = self.LEFT
         self.index = 0
         self.index += 1
