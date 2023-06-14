@@ -11,6 +11,7 @@ class Spaceship:
         self.rect = self.image.get_rect()
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
+        self.direction = 1
 
     def update(self, user_input):
         if user_input[pygame.K_LEFT]:
@@ -29,10 +30,15 @@ class Spaceship:
     def move_left(self):
         if self.rect.left > 0:
             self.rect.x -= 10
+        elif self.rect.left <= 0:
+            self.rect.x = SCREEN_WIDTH - self.rect.width
 
     def move_right(self):
-        if self.rect.right > 0:
-            self.rect.x += 10 
+        if self.rect.right < SCREEN_WIDTH:
+            self.rect.x += 10
+        elif self.rect.right >= SCREEN_WIDTH:
+            self.rect.x = 0
+
 
     def move_up(self):
         if self.rect.y > (SCREEN_HEIGHT)// 2:
