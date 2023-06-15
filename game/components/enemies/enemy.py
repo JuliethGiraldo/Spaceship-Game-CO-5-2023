@@ -8,7 +8,6 @@ class Enemy:
   LEFT = 'left'
   RIGHT = 'right'
   MOV_X = [LEFT, RIGHT]
-  INTERVAL = 100
   SHOOTING_TIME = 30
   
   def __init__(self, image):
@@ -25,27 +24,25 @@ class Enemy:
   def update(self, bullet_handler):
     if self.rect.y >= SCREEN_HEIGHT:
       self.is_alive = False
-
-      self.shooting_time += 1
-      self.move()
-      self.shoot(bullet_handler)
+    self.shooting_time += 1
+    self.move()
+    self.shoot(bullet_handler)
 
 
   def draw(self, screen):
     screen.blit(self.image, self.rect)
 
   def move(self):
-    self.rect.y += self.speed_y 
+    self.rect.y += self.SPEED_Y
 
     if self.mov_x == self.LEFT:
-      self.rect.x -= self.speed_x
+      self.rect.x -= self.SPEEED_X
 
-    if self.index > self.INTERVAL or self.rect.x >= SCREEN_WIDTH - self.rect.width:
-        self.mov_x = self.LEFT
+      if self.index > self.INTERVAL or self.rect.x <= SCREEN_WIDTH - self.rect.width:
+        self.mov_x = self.RIGHT
         self.index = 0
     else:
       self.rect.x += self.speed_x
-
       if self.index > self.INTERVAL or self.rect.x >= SCREEN_WIDTH - self.rect.width:
         self.mov_x = self.LEFT
         self.index = 0

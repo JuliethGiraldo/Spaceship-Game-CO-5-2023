@@ -14,6 +14,7 @@ class BulletEnemy(Bullet):
 
     def update(self, player):
         self.rect.y += self.SPEED
-
         if self.rect.colliderect(player.rect):
             player.is_alive = False
+
+            
