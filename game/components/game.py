@@ -22,6 +22,7 @@ class Game:
         self.enemy_handler = EnemyHandler()
         self.bullet_handler = BulletHandler()
         self.score = 0
+        self.number_death = 0
 
     def run(self):
         self.running = True
@@ -47,9 +48,11 @@ class Game:
             self.player.update(user_input, self.bullet_handler)
             self.enemy_handler.update(self.bullet_handler)
             self.bullet_handler.update(self.player, self.enemy_handler.enemies)
+            self.score = self.enemy_handler.num
             if not self.player.is_alive:
                 pygame.time.delay(300)
                 self.playing = False
+                self.number_death += 1
 
     def draw(self):
         self.draw_background()
@@ -58,11 +61,11 @@ class Game:
             self.player.draw(self.screen)
             self.enemy_handler.draw(self.screen)
             self.bullet_handler.draw(self.screen)
-            
+            self.draw_score()
         else:
             self.draw_menu()
-            pygame.display.update()
-            pygame.display.flip()
+        pygame.display.update()
+        pygame.display.flip()
         
 
     def draw_background(self):
@@ -76,10 +79,21 @@ class Game:
         self.y_pos_bg += self.game_speed
 
     def draw_menu(self):
-        text, text_rect = text_utils.get_message('Press any key to start', 30, WHITE_COLOR)
-        self.screen.blit(text, text_rect)
+        if self.number_death == 0:
+            text, text_rect = text_utils.get_message('Press any key to start', 30, WHITE_COLOR)
+            score, score_rect = text_utils.get_message('your score is: {self.score}', 30, WHITE_COLOR, height=SCREEN_HEIGHT//2 +50)
+            self.screen.blit(text, text_rect)
+        else:
+            text, text_rect = text_utils.get_message('Press any key to start', 30, WHITE_COLOR)
+            self.screen.blit(text, text_rect)
+            self.screen.blit(score, score_rect)
+
+    def draw_score(self):
+        score, score_rect = text_utils.get_message(f'your score is: {self.score}', 20, WHITE_COLOR, 1000, 40)
+        self.screen.blit(score, score_rect)
 
     def reset(self):
         self.player.reset()
         self.enemy_handler.reset()
         self.bullet_handler.reset()
+        self.score = 0

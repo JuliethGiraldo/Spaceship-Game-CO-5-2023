@@ -1,3 +1,5 @@
+
+from game.components.bullets.bullet_spaceship import BulletSpaceship
 from game.utils.constants import BULLET_ENEMY_TYPE
 from game.components.bullets.bullet_enemy import BulletEnemy
 

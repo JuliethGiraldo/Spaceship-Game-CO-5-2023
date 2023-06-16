@@ -1,3 +1,4 @@
+import pygame
 from game.components.enemies.ship import Ship
 from game.components.enemies.sapphire import Sapphire
 
@@ -11,7 +12,8 @@ class EnemyHandler:
         self.add_enemy()
         for enemy in self.enemies:
             enemy.update(bullet_handler)
-
+            if enemy.is_destroyed:
+                self.number_enemy_destroyed += 1
             if not enemy.is_alive:
                 self.remove_enemy(enemy)
 
@@ -31,3 +33,4 @@ class EnemyHandler:
 
     def reset(self):
         self.enemies = []
+        self.number_enemy_destroyed = 0

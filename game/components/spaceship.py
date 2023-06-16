@@ -1,5 +1,6 @@
 import pygame
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT
+from game.components.bullets.bullet_handler import BulletHandler
+from game.utils.constants import BULLET_SPACESHIP_TYPE, SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Spaceship:
     X_POS = (SCREEN_WIDTH // 2) - 40
@@ -24,7 +25,7 @@ class Spaceship:
         elif user_input[pygame.K_DOWN]:
             self.move_down()
         elif user_input[pygame.K_SPACE]:
-            self.shoot(bullet_handler)
+            self.shoot(BulletHandler)
 
 
     def draw(self, screen):
