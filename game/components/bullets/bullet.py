@@ -4,8 +4,10 @@ class Bullet:
         self.rect = self.image.get_rect()
         self.rect.center = center
 
-    def update(self):
-        pass
+    def update(self, object):
+        if self.rect.colliderect():
+            object.is_alive = False
+            self.is_alive = False
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

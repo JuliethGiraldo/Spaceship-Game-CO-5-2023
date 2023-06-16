@@ -23,6 +23,8 @@ class Spaceship:
             self.move_up()
         elif user_input[pygame.K_DOWN]:
             self.move_down()
+        elif user_input[pygame.K_SPACE]:
+            self.shoot(bullet_handler)
 
 
     def draw(self, screen):
@@ -48,6 +50,9 @@ class Spaceship:
     def move_down(self):
         if self.rect.y < (SCREEN_HEIGHT)-60:
             self.rect.y += 10
+
+    def shoot(self, bullet_handler):
+        bullet_handler.add_bullet(BULLET_SPACESHIP_TYPE, self.rect.center)
 
     def reset(self):
         self.rect.x = self.X_POS

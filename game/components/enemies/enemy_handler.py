@@ -5,6 +5,7 @@ class EnemyHandler:
 
     def __init__(self):
         self.enemies = []
+        self.number_enemy_destroyed = 0
 
     def update(self, bullet_handler):
         self.add_enemy()
@@ -21,9 +22,12 @@ class EnemyHandler:
 
 
     def add_enemy(self):
-        if len(self.enemies) < 2:
+        if len(self.enemies) < 6:
             self.enemies.append(Ship())
             self.enemies.append(Sapphire())
 
     def remove_enemy(self, enemy):
         self.enemies.remove(enemy)
+
+    def reset(self):
+        self.enemies = []

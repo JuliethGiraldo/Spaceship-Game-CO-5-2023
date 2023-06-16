@@ -1,10 +1,10 @@
 import pygame
 
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, WHITE_COLOR
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
-
+from game.components import text_utils
 
 class Game:
     def __init__(self):
@@ -14,17 +14,18 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
+        self.runnning = False
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
         self.player = Spaceship()
         self.enemy_handler = EnemyHandler()
         self.bullet_handler = BulletHandler()
+        self.score = 0
 
     def run(self):
-        self.playing = True
-
-        while self.playing:
+        self.running = True
+        while self.running:
             self.events()
             self.update()
             self.draw()
@@ -34,27 +35,35 @@ class Game:
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.running = False
                 self.playing = False
+            elif event.type == pygame.KEYDOWN and not self.playing:
+                self.playing = True
+                self.reset()
 
     def update(self):
-        user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
-        self.enemy_handler.update(self.bullet_handler)
-        self.bullet_handler.update(self.player)
-
-        if not self.player.is_alive:
-            pygame.time.delay(300)
-            self.playing = False
+        if self.playing:
+            user_input = pygame.key.get_pressed()
+            self.player.update(user_input, self.bullet_handler)
+            self.enemy_handler.update(self.bullet_handler)
+            self.bullet_handler.update(self.player, self.enemy_handler.enemies)
+            if not self.player.is_alive:
+                pygame.time.delay(300)
+                self.playing = False
 
     def draw(self):
-        self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.player.draw(self.screen)
-        self.enemy_handler.draw(self.screen)
-        self.bullet_handler.draw(self.screen)
-        pygame.display.update()
-        pygame.display.flip()
+        if self.playing:
+            self.clock.tick(FPS)
+            self.player.draw(self.screen)
+            self.enemy_handler.draw(self.screen)
+            self.bullet_handler.draw(self.screen)
+            
+        else:
+            self.draw_menu()
+            pygame.display.update()
+            pygame.display.flip()
+        
 
     def draw_background(self):
         image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -65,3 +74,12 @@ class Game:
             self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
             self.y_pos_bg = 0
         self.y_pos_bg += self.game_speed
+
+    def draw_menu(self):
+        text, text_rect = text_utils.get_message('Press any key to start', 30, WHITE_COLOR)
+        self.screen.blit(text, text_rect)
+
+    def reset(self):
+        self.player.reset()
+        self.enemy_handler.reset()
+        self.bullet_handler.reset()
