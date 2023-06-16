@@ -29,8 +29,8 @@ class BulletHandler:
         else:
             self.bullets.append(BulletSpaceship(center))
 
-        def remove_bullet(self, bullet):
-            self.bullets.remove(bullet)
+    def remove_bullet(self, bullet):
+        self.bullets.remove(bullet)
 
-        def reset(self):
-            self.bullets = []
+    def reset(self):
+        self.bullets = []
