@@ -48,3 +48,8 @@ class Spaceship:
     def move_down(self):
         if self.rect.y < (SCREEN_HEIGHT)-60:
             self.rect.y += 10
+
+    def reset(self):
+        self.rect.x = self.X_POS
+        self.rect.y = self.Y_POS
+        self.is_alive = True

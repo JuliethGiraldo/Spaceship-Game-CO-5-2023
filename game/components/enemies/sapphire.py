@@ -12,7 +12,6 @@ class Sapphire(Enemy):
         self.image = ENEMY_2
         self.image = pygame.transform.scale(self.image, (self.WIDTH, self.HEIGHT))
         super().__init__(self.image)
-        self.rect = self.image.get_rect()
         self.SPEED_X = 8
         self.SPEED_Y = 2
         self.INTERVAL = 80
